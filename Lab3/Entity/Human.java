@@ -6,12 +6,12 @@ import Lab3.Entity.abstracts.Entity;
 import Lab3.Entity.property.Personality;
 import Lab3.Entity.property.SwitchableMood;
 
-public class MainCharacter extends Entity {
+public class Human extends Entity {
     private Personality    personality    = Personality.Default;
     private SwitchableMood switchableMood = SwitchableMood.Default;
     public String          pronoun;
 
-    public MainCharacter(String name) {
+    public Human(String name) {
         this.name              = name;
         this.pronounAkkusative = "его";
         this.Akkusative        = name;
@@ -22,11 +22,11 @@ public class MainCharacter extends Entity {
         this.pronoun           = "оно";
     }
 
-    public MainCharacter(String name, String gender) {
+    public Human(String name, String gender) {
         this.name              = name;
         this.pronounAkkusative = Objects.equals(gender, "female")
-                                 ? "ее"
-                                 : "его";
+                                 ? "ней"
+                                 : "ним";
         this.Akkusative        = name;
         this.Genitive          = name;
         this.Instrumental      = name;
@@ -37,11 +37,11 @@ public class MainCharacter extends Entity {
                                  : "он";
     }
 
-    public MainCharacter(String name, String gender, String Akkusative, String Genitive, String Instrumental) {
+    public Human(String name, String gender, String Akkusative, String Genitive, String Instrumental) {
         this.name              = name;
         this.pronounAkkusative = Objects.equals(gender, "female")
-                                 ? "ее"
-                                 : "его";
+                                 ? "ней"
+                                 : "ним";
         this.Akkusative        = Akkusative;
         this.Genitive          = Genitive;
         this.Instrumental      = Instrumental;
@@ -52,12 +52,12 @@ public class MainCharacter extends Entity {
                                  : "он";
     }
 
-    public MainCharacter(String name, String gender, String Akkusative, String Genitive, String Instrumental,
-                         boolean active, boolean easyGoing) {
+    public Human(String name, String gender, String Akkusative, String Genitive, String Instrumental,
+                 boolean active, boolean easyGoing) {
         this.name              = name;
         this.pronounAkkusative = Objects.equals(gender, "female")
-                                 ? "ее"
-                                 : "его";
+                                 ? "ней"
+                                 : "ним";
         this.Akkusative        = Akkusative;
         this.Genitive          = Genitive;
         this.Instrumental      = Instrumental;
@@ -78,9 +78,38 @@ public class MainCharacter extends Entity {
                        : "он";
     }
 
+    public Human(){
+        this.name              = "faceless";
+        this.pronounAkkusative = "кто?";
+        this.Akkusative        = "faceless";
+        this.Genitive          = "faceless";
+        this.Instrumental      = "faceless";
+        this.personality       = Personality.Active;
+        this.switchableMood    = SwitchableMood.Easy;
+        this.pronoun           = "все";
+    }
+
+    @Override
+    public void interactWith(Entity objects) {}
+
+    @Override
+    public int getFreeAmount() {
+        return 0;
+    }
+
+    @Override
+    public boolean isFreePlace() {
+        return false;
+    }
+
     @Override
     public boolean isMainCharacter() {
         return true;
+    }
+
+    @Override
+    public Entity[] getObjects() {
+        return null;
     }
 }
 

@@ -2,14 +2,16 @@ package Lab3.Entity.abstracts;
 
 import java.util.Objects;
 
+import Lab3.Entity.interfaces.Fullness;
 import Lab3.Entity.interfaces.MainCharacters;
 import Lab3.Entity.property.Personality;
 import Lab3.Entity.property.SwitchableMood;
 
-public abstract class Entity implements MainCharacters {
-    private String            pronoun        = "";
-    private final Personality personality    = Personality.Default;
-    public SwitchableMood     switchableMood = SwitchableMood.Default;
+public abstract class Entity implements MainCharacters, Fullness {
+    private String            pronoun         = "";
+    private final Personality personality     = Personality.Default;
+    public SwitchableMood     switchableMood  = SwitchableMood.Default;
+    protected Entity[]        interactionList = null;
     protected String          name;
     private boolean           isBuried;
     protected String          Genitive;

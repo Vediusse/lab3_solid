@@ -5,11 +5,13 @@ import Lab3.Atmoshere.Sound;
 import Lab3.Entity.abstracts.Entity;
 
 public class Actions {
-    private final int     lengthCharacter;
-    private final String  subject;
-    private final String  pronoun;
-    public final Entity[] Subject;
-    public Entity[]       Object;
+    private int     lengthCharacter = 0;
+    private String  subject         = "";
+    private String  pronoun         = "";
+    public Entity[] Subject         = new Entity[] {};
+    public Entity[] Object;
+
+    public Actions() {}
 
     public Actions(Entity[] Subject, Entity[] Object) {
         this.Subject         = Subject;
@@ -46,7 +48,8 @@ public class Actions {
                                                                                          + this.Object[1].getName();
     }
 
-    public String beOnTimeAndDoSmth(String verb, boolean negation, String secondVerb, boolean secondNegation) {
+    public String beOnTimeAndDoSmth(String verb, boolean negation, String secondVerb, boolean secondNegation,interactiveAction interactiveAction) {
+        interactiveAction.executeLogic();
         return beOnTime(verb,
                         negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
                                   + this.doSmth(secondVerb,
@@ -65,7 +68,7 @@ public class Actions {
     }
 
     public String know(String verb, boolean negation) {
-        return subject + modalVerbBilder(false, "знал") + ", что " + doSmth("ответить", negation);
+        return subject + modalVerbBilder(negation, " знал") + ", что" + doSmth("ответить", negation);
     }
 
     public String makeSound(Sound Sound) {
@@ -92,13 +95,17 @@ public class Actions {
 
     public String notEasyTo(String verb, boolean negation) {
         return negationVerb(false, verb).substring(0, 1)
-                                        .toUpperCase() + negationVerb(false,
+                                        .toUpperCase() + negationVerb(negation,
                                                                       verb).substring(1) + " c "
                                                                       + this.Subject[0].getPronounAkkusative()
-                                                                          + " было трудно, особенно когда " + pronoun
+                                                                          + " было трудно, особенно когда " + "он"
                                                                               + " " + "бывал в настроении" + " по"
-                                                                                  + negationVerb(false,
+                                                                                  + negationVerb(negation,
                                                                                                  verb);
+    }
+
+    public String notSoEasy() {
+        return "Нельзя закапывать что то не семечное :)";
     }
 
     private String pronounsBuild() {
