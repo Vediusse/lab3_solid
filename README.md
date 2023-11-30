@@ -3,11 +3,47 @@
 Описание предметной области, по которой должна быть построена объектная модель:
 
 ```text
-Карлосон и Малыш успели тем временем ткнуть Малыш в горшок, и теперь они засыпали его землей
-Карлосон неподумал, поэтому Карлосон знал, что  ответить
-Спорить c его было трудно, особенно когда  бывал в настроении поспорить
-К счастью, настроение у Карлосон менялось каждые 10 минут
+MainCharacters:
+	Карлосон
+	Малыш
+	Карлосон
+	faceless
+	faceless
+Things:
+	Семечко
+	горшок
+	земля
+
+Карлосон joins the server
+Малыш joins the server
+Карлосон joins the server
+faceless joins the server
+faceless joins the server
+
+Карлосон и Малыш успели тем временем ткнуть Семечко в горшок, и теперь они засыпали его землей
+Карлосон неподумал, поэтому Малыш не знал, что ответить
+Спорить c ним было трудно, особенно когда он бывал в настроении поспорить
+К счастью, настроение у Карлосонa менялось каждые 10 минут
 Теперь Карлосон издал звук, похожий на кудахтанье
+
+
+
+Карлосон и Малыш успели тем временем ткнуть Семечко в горшок, и теперь они засыпали его землей
+Карлосон и Малыш успели тем временем ткнуть семечко в горшок, и теперь они засыпали его землей
+Карлосон и Малыш успели тем временем ткнуть Семечко в горшок, и теперь они засыпали его землей
+ └──   Нельзя просто так взять и положить так много вещей в вещь, поэтому следующая строка лишь сюрреализм
+
+
+
+Карлосон и Малыш успели тем временем ткнуть Семечко в Негоршок, и теперь они засыпали его землей
+└──  Нельзя закапывать что то не в горшок :)
+
+
+
+Теперь Малыш издал звук, похожий на кудахтанье
+└──  Малыш не захочет кудахтать
+Теперь горшок издал звук, похожий на кудахтанье
+└──  горшок не захочет кудахтать
 ```
 
 Программа должна удовлетворять следующим требованиям:
@@ -32,26 +68,41 @@ bash script.sh
 ## Структура проекта
 ```text
 ├── Actions
-│ └── Actions.java
+│   ├── Actions.java
+│   └── interactiveAction.java
 ├── Atmoshere
-│ ├── Scene.java
-│ └── Sound.java
+│   ├── Scene.java
+│   └── Sound.java
 ├── Entity
-│ ├── MainCharacter.java
+│ ├── Cringe
+│ │ ├── Dirty.java
+│ │ ├── Karloson.java
+│ │ ├── Malush.java
+│ │ ├── Pot.java
+│ │ ├── Seed.java
+│ │ └── property
+│ │     ├── Akkusative.java
+│ │     ├── Gender.java
+│ │     ├── Instrumental.java
+│ │     └── Name.java
+│ ├── Human.java
 │ ├── Thing.java
 │ ├── abstracts
 │ │ └── Entity.java
 │ ├── interfaces
-│ │   └── MainCharacters.java
+│ │ ├── Fullness.java
+│ │ ├── HumanFactory.java
+│ │ └── MainCharacters.java
 │ └── property
 │     ├── Personality.java
 │     └── SwitchableMood.java
 ├── Lab3.jar
 ├── Lab7.jar
 ├── META-INF
-│ └── MANIFEST.mf
+│   └── MANIFEST.mf
 ├── Main.java
 └── script.sh
+
 ```
 
 ### Actions
@@ -72,38 +123,16 @@ bash script.sh
 ### Main.java
 Файл содержит главный класс Main, который является точкой входа в программу. Он создает экземпляры классов MainCharacter, Thing, Sound и Scene, и вызывает различные методы для взаимодействия в сцене.
 
-## Пример использования 
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        MainCharacter person = new MainCharacter("Человек", "male", "Человек", "Человека", "Человеком", true, false);
-        Thing         stuff  = new Thing("штука", "male", "штука", "штуки", "штукой");
-        Scene         scene  = Scene.getInstance(1, new MainCharacter[] { person }, new Thing[] { stuff });
-
-        scene.interactionThing(new Entity[] { scene.getOrCreateMain("Человек"), scene.getOrCreateMain("Strange?") },
-                               scene.getOrCreateThing("штука"),
-                               scene.getOrCreateThing("Strange_thing?"),
-                               "подозревать",
-                               false,
-                               "стеснял",
-                               false,
-                               scene.getOrCreateThing("штука"));
-    }
-}
+## Запуск
+```bash
+bash script.sh
 ```
 
-```text
-Вывод:
+## v2 правки
 
-MainCharacters:
-	Человек
-Things:
-	штука
+- Добавил возможность создания массовки *Ссылки на методы* (HumanFactory humanFactory = Human::new;)  (Main.java (17,23); Entity.interface.HumanFactory)
+- Облечил читаемость Main.class, создав дефолтные классы Seed,Pot,Dirty,Karloson,Malush (Main.java (15-21);Entity.Cringe)
+- Добавил *Enum* для большей дефолтности дефолтных классов Seed,Pot,Dirty,Karloson,Malush (Entity.Cringe; Entity.Cringe.property)
+- Добавил реализацию *Функциональных интерфейсов* (Actions.interativeAction;Actions.java(51);Atmospere.Scene(93))
 
-Человек joins the server
-
-Человек и Strange? успели тем временем подозревать штука в Strange_thing?, и теперь они стесняли его штукой
-
-```
 
