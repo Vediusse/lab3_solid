@@ -1,19 +1,21 @@
 package Lab3.Actions;
 
 import Lab3.Atmoshere.Sound;
+import Lab3.Atmoshere.interactiveAction;
+import Lab3.Atmoshere.makeSound;
 
 import Lab3.Entity.abstracts.Entity;
 
-public class Actions {
+public class Message {
     private int     lengthCharacter = 0;
     private String  subject         = "";
     private String  pronoun         = "";
     public Entity[] Subject         = new Entity[] {};
     public Entity[] Object;
 
-    public Actions() {}
+    public Message() {}
 
-    public Actions(Entity[] Subject, Entity[] Object) {
+    public Message(Entity[] Subject, Entity[] Object) {
         this.Subject         = Subject;
         this.Object          = Object;
         this.lengthCharacter = Subject.length;
@@ -48,13 +50,25 @@ public class Actions {
                                                                                          + this.Object[1].getName();
     }
 
-    public String beOnTimeAndDoSmth(String verb, boolean negation, String secondVerb, boolean secondNegation,interactiveAction interactiveAction) {
-        interactiveAction.executeLogic();
+    public String beOnTimeAndDoSmth(String verb, boolean negation, String secondVerb, boolean secondNegation,
+                                    interactiveAction interactiveAction) {
+        interactiveAction.executeLogic(this.Object[0], this.Object[1]);
+
         return beOnTime(verb,
                         negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
                                   + this.doSmth(secondVerb,
                                                 secondNegation) + this.Object[0].getPronounAkkusative() + " "
                                                                 + this.Object[2].getInstrumental();
+    }
+
+    public void beOnTimeAndDoSmthWithErrors(String verb, boolean negation, String secondVerb, boolean secondNegation,
+                                            interactiveAction interactiveAction) {
+        System.out.println(beOnTime(verb,
+                                    negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
+                                              + this.doSmth(secondVerb,
+                                                            secondNegation) + this.Object[0].getPronounAkkusative()
+                                                                            + " " + this.Object[2].getInstrumental());
+        interactiveAction.executeLogic(this.Object[0], this.Object[1]);
     }
 
     private String doSmth(String verb, boolean negation) {
@@ -75,6 +89,13 @@ public class Actions {
         return "Теперь " + subject + modalVerbBilder(false, "издал звук") + ", похожий на " + Sound.getSimilarTo();
     }
 
+    public void makeSoundWithErrors(Sound Sound, makeSound actionMakeSound) {
+        System.out.println("Теперь " + subject + modalVerbBilder(false,
+                                                                 "издал звук") + ", похожий на "
+                                                                               + Sound.getSimilarTo());
+        actionMakeSound.makeSound(this.Subject[0], Sound);
+    }
+
     private String modalVerbBilder(boolean negation, String verb) {
         if (!(lengthCharacter == 1)) {
             verb = verb + "и ";
@@ -93,6 +114,14 @@ public class Actions {
         return verb;
     }
 
+    public String notAbleToMakeClutck(Entity subject) {
+        return subject.getName() + " не захочет кудахтать";
+    }
+
+    public String notAbleToMakeSound(Entity subject) {
+        return subject.getName() + " не захочет кудахтать, точнее не может";
+    }
+
     public String notEasyTo(String verb, boolean negation) {
         return negationVerb(false, verb).substring(0, 1)
                                         .toUpperCase() + negationVerb(negation,
@@ -105,7 +134,7 @@ public class Actions {
     }
 
     public String notSoEasy() {
-        return "Нельзя закапывать что то не семечное :)";
+        return "Нельзя закапывать что то не в горшок :)";
     }
 
     private String pronounsBuild() {
@@ -141,10 +170,10 @@ public class Actions {
     }
 
     public String switchMood(String verb, boolean negation, int time) {
-        return "К счастью, настроение у " + subject + negationVerb(false,
-                                                                   verb) + " каждые "
-                                                                   + this.Subject[0].getSwitchableMood().toString()
-                                                                       + " минут";
+        return "К счастью, настроение у " + this.Subject[0].getAkkusative() + "a " + negationVerb(false,
+                                                                                                  verb) + " каждые "
+                                                                                                  + this.Subject[0].getSwitchableMood().toString()
+                                                                                                      + " минут";
     }
 
     public String thinkAbout(boolean negation, String reason) {

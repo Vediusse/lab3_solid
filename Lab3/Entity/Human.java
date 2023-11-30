@@ -11,6 +11,17 @@ public class Human extends Entity {
     private SwitchableMood switchableMood = SwitchableMood.Default;
     public String          pronoun;
 
+    public Human() {
+        this.name              = "faceless";
+        this.pronounAkkusative = "кто?";
+        this.Akkusative        = "faceless";
+        this.Genitive          = "faceless";
+        this.Instrumental      = "faceless";
+        this.personality       = Personality.Active;
+        this.switchableMood    = SwitchableMood.Easy;
+        this.pronoun           = "все";
+    }
+
     public Human(String name) {
         this.name              = name;
         this.pronounAkkusative = "его";
@@ -52,8 +63,8 @@ public class Human extends Entity {
                                  : "он";
     }
 
-    public Human(String name, String gender, String Akkusative, String Genitive, String Instrumental,
-                 boolean active, boolean easyGoing) {
+    public Human(String name, String gender, String Akkusative, String Genitive, String Instrumental, boolean active,
+                 boolean easyGoing) {
         this.name              = name;
         this.pronounAkkusative = Objects.equals(gender, "female")
                                  ? "ней"
@@ -78,19 +89,18 @@ public class Human extends Entity {
                        : "он";
     }
 
-    public Human(){
-        this.name              = "faceless";
-        this.pronounAkkusative = "кто?";
-        this.Akkusative        = "faceless";
-        this.Genitive          = "faceless";
-        this.Instrumental      = "faceless";
-        this.personality       = Personality.Active;
-        this.switchableMood    = SwitchableMood.Easy;
-        this.pronoun           = "все";
+    @Override
+    public void interactWith(Entity objects) {}
+
+    @Override
+    public boolean toCluck() {
+        return false;
     }
 
     @Override
-    public void interactWith(Entity objects) {}
+    public boolean isAbleTomakeSound() {
+        return true;
+    }
 
     @Override
     public int getFreeAmount() {

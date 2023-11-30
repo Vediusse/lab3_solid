@@ -7,7 +7,7 @@ import Lab3.Entity.Thing;
 import Lab3.Entity.abstracts.Entity;
 
 public class Pot extends Thing {
-    public int             fullability = 0;
+    public int             fullability = 3;
     protected List<Entity> entityList  = new ArrayList<>();
 
     public Pot() {
@@ -18,8 +18,9 @@ public class Pot extends Thing {
     public void interactWith(Entity objects) {
         if (this.isFreePlace()) {
             this.entityList.add(objects);
-        }else{
-            System.out.println("|──  Нельзя просто так взять и положить так много вещей в вещь, поэтому следующая строка лишь сюрреализм");
+        } else {
+            System.out.println(
+                " └──   Нельзя просто так взять и положить так много вещей в вещь, поэтому следующая строка лишь сюрреализм");
         }
     }
 
@@ -36,11 +37,13 @@ public class Pot extends Thing {
     @Override
     public Entity[] getObjects() {
         Entity[] entities = new Entity[entityList.size()];
-        int i = 0;
+        int      i        = 0;
+
         for (Entity obj : entityList) {
             entities[i] = obj;
             i++;
         }
+
         return entities;
     }
 }

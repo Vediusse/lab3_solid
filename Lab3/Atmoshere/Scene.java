@@ -4,24 +4,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Lab3.Actions.Actions;
+import Lab3.Actions.Message;
 
 import Lab3.Entity.Human;
 import Lab3.Entity.Thing;
 import Lab3.Entity.abstracts.Entity;
 
+import static Lab3.Atmoshere.Functions.actionInterraction;
+import static Lab3.Atmoshere.Functions.actionMakeSound;
+
 public class Scene {
     private static Scene                 instance;
     private int                          chapter = 0;
-    public Human[] Human;
+    public Human[]                       Human;
     public Thing[]                       Things;
     public HashMap<String, List<Entity>> charachter;
 
     private Scene(Human[] Human, Thing[] Things, int chapter) {
-        this.Human = Human;
-        this.Things        = Things;
+        this.Human  = Human;
+        this.Things = Things;
 
-        Actions action_for_describe = new Actions(Human, Things);
+        Message action_for_describe = new Message(Human, Things);
 
         System.out.println(action_for_describe.allCharacters(action_for_describe.Subject, action_for_describe.Object));
         this.charachter = new HashMap<>();
@@ -39,13 +42,14 @@ public class Scene {
                 this.charachter.put(name, characterList);
             }
 
-            Actions action = new Actions(new Human[] {human}, null);
+            Message action = new Message(new Human[] { human }, null);
 
             System.out.println(action.joinServer());
         }
 
         for (Thing things : Things) {
             String name = things.getName();
+
             if (this.charachter.containsKey(name)) {
                 this.charachter.get(name).add(things);
             } else {
@@ -60,25 +64,25 @@ public class Scene {
     }
 
     public void argueWith(Entity[] MainCharacter, String verb, boolean negation) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         System.out.println(action.notEasyTo(verb, negation));
     }
 
     public String argueWithToString(Entity[] MainCharacter, String verb, boolean negation) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         return action.notEasyTo(verb, negation);
     }
 
     public void changeMood(Entity[] MainCharacter, String verb, boolean negation, int time) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         System.out.println(action.switchMood(verb, negation, time));
     }
 
     public String changeMoodToString(Entity[] MainCharacter, String verb, boolean negation, int time) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         return action.switchMood(verb, negation, time);
     }
@@ -86,61 +90,53 @@ public class Scene {
     public void interactionThing(Entity[] MainCharacter, Entity GenitiveSubject, Entity AkkusativSubject, String verb,
                                  boolean negation, String secondVerb, boolean secondNegation,
                                  Entity InstrumentalSubject) {
-
-
-        Actions action = new Actions(MainCharacter,
+        Message action = new Message(MainCharacter,
                                      new Entity[] { GenitiveSubject, AkkusativSubject, InstrumentalSubject });
-        System.out.println(action.beOnTimeAndDoSmth(verb, negation, secondVerb, secondNegation,() -> {
-            if (AkkusativSubject.getObjects() == null) {
-                Actions imposible = new Actions();
-                System.out.println("└──  " + imposible.notSoEasy());
-                return;
-            }
-            AkkusativSubject.interactWith(GenitiveSubject);
-        }));
 
-
+        System.out.println(action.beOnTimeAndDoSmth(verb, negation, secondVerb, secondNegation, actionInterraction));
     }
 
-    public String interactionThingToString(Entity[] MainCharacter, Entity GenitiveSubject, Entity AkkusativSubject,
-                                           String verb, boolean negation) {
-        Actions action = new Actions(MainCharacter, new Entity[] { GenitiveSubject, AkkusativSubject });
+    public void interactionThingWithErrors(Entity[] MainCharacter, Entity GenitiveSubject, Entity AkkusativSubject,
+                                           String verb, boolean negation, String secondVerb, boolean secondNegation,
+                                           Entity InstrumentalSubject) {
+        Message action = new Message(MainCharacter,
+                                     new Entity[] { GenitiveSubject, AkkusativSubject, InstrumentalSubject });
 
-        return action.beOnTime(verb, negation);
+        action.beOnTimeAndDoSmthWithErrors(verb, negation, secondVerb, secondNegation, actionInterraction);
     }
 
     public void know(Entity[] MainCharacter, String verb, boolean negation) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         System.out.println(action.know(verb, negation));
     }
 
     public String knowToString(Entity[] MainCharacter, String verb, boolean negation) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         return action.know(verb, negation);
     }
 
     public void makeSound(Entity[] MainCharacter, Sound Sound) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
-        System.out.println(action.makeSound(Sound));
+        action.makeSoundWithErrors(Sound, actionMakeSound);
     }
 
     public String makeSoundToString(Entity[] MainCharacter, Sound Sound) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         return action.makeSound(Sound);
     }
 
     public void think(Entity[] MainCharacter, boolean negation, String reason) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         System.out.println(action.thinkAbout(negation, reason));
     }
 
     public String thinkToString(Entity[] MainCharacter, boolean negation, String reason) {
-        Actions action = new Actions(MainCharacter, null);
+        Message action = new Message(MainCharacter, null);
 
         return action.thinkAbout(negation, reason);
     }
@@ -155,8 +151,8 @@ public class Scene {
     }
 
     private Entity getMainCharacheter(String name) {
-        Human NewThing     = new Human(name);
-        List<Entity>  NewThingList = new ArrayList<>();
+        Human        NewThing     = new Human(name);
+        List<Entity> NewThingList = new ArrayList<>();
 
         NewThingList.add(NewThing);
         this.charachter.put(name, NewThingList);
@@ -189,9 +185,9 @@ public class Scene {
     }
 
     public Entity getOrCreateThing(String name) {
-
         if (this.charachter.containsKey(name)) {
             Entity potentialThing = this.charachter.get(name).get(0);
+
             if (!potentialThing.isMainCharacter()) {
                 return potentialThing;
             }

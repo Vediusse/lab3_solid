@@ -20,6 +20,16 @@ public class Thing extends Entity {
     public void interactWith(Entity objects) {}
 
     @Override
+    public boolean toCluck() {
+        return false;
+    }
+
+    @Override
+    public boolean isAbleTomakeSound() {
+        return false;
+    }
+
+    @Override
     public int getFreeAmount() {
         return 0;
     }
