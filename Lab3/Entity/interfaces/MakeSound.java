@@ -1,6 +1,6 @@
 package Lab3.Entity.interfaces;
 
-public interface makeSound {
+public interface MakeSound {
     boolean toCluck();
 
     boolean isAbleTomakeSound();

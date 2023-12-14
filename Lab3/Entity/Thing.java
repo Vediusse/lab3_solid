@@ -1,23 +1,23 @@
 package Lab3.Entity;
 
-import java.util.Objects;
-
 import Lab3.Entity.abstracts.Entity;
-import Lab3.Entity.interfaces.Fullness;
+
+import java.util.Objects;
 
 public class Thing extends Entity {
     public Thing(String name, String gender, String Akkusative, String Genitive, String Instrumental) {
-        this.name              = name;
+        this.name = name;
         this.pronounAkkusative = Objects.equals(gender, "female")
-                                 ? "ее"
-                                 : "его";
-        this.Akkusative        = Akkusative;
-        this.Genitive          = Genitive;
-        this.Instrumental      = Instrumental;
+                ? "ее"
+                : "его";
+        this.akkusative = Akkusative;
+        this.genitive = Genitive;
+        this.instrumental = Instrumental;
     }
 
     @Override
-    public void interactWith(Entity objects) {}
+    public void interactWith(Entity objects) {
+    }
 
     @Override
     public boolean toCluck() {
@@ -47,6 +47,11 @@ public class Thing extends Entity {
     @Override
     public Entity[] getObjects() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Entity o) {
+        return this.getName().equalsIgnoreCase(o.getName());
     }
 }
 

@@ -1,7 +1,11 @@
 package Lab3.Entity.Cringe.property;
 
 public enum Akkusative {
-    Karloson("Карлосонa"), Malush("Малыш"), Pot("горшок"), Seed("семечко"), Dirty("земля");
+    Karloson("Карлосонa"),
+    Malush("Малыш"),
+    Pot("горшок"),
+    Seed("семечко"),
+    Dirty("земля");
 
     private final String akkusative;
 

@@ -1,66 +1,74 @@
 package Lab3.Atmoshere;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import Lab3.Actions.Message;
-
 import Lab3.Entity.Human;
 import Lab3.Entity.Thing;
 import Lab3.Entity.abstracts.Entity;
 
-import static Lab3.Atmoshere.Functions.actionInterraction;
-import static Lab3.Atmoshere.Functions.actionMakeSound;
+
+import java.util.*;
+
+import static Lab3.Functions.Functions.actionInterraction;
+import static Lab3.Functions.Functions.actionMakeSound;
 
 public class Scene {
-    private static Scene                 instance;
-    private int                          chapter = 0;
-    public Human[]                       Human;
-    public Thing[]                       Things;
-    public HashMap<String, List<Entity>> charachter;
+    private static Scene instance;
+    public Human[] human;
+    public Thing[] things;
+    public HashMap<String, List<Entity>> charachters;
+    private int chapter = 0;
 
     private Scene(Human[] Human, Thing[] Things, int chapter) {
-        this.Human  = Human;
-        this.Things = Things;
+        this.human = Human;
+        this.things = Things;
+        try {
+            Message action_for_describe = new Message(Human, Things);
+            System.out.println(action_for_describe.allCharacters(action_for_describe.Subject, action_for_describe.Object));
+            this.charachters = new HashMap<>();
+            this.chapter = chapter;
 
-        Message action_for_describe = new Message(Human, Things);
+            for (Human human : Human) {
+                String name = human.getName();
 
-        System.out.println(action_for_describe.allCharacters(action_for_describe.Subject, action_for_describe.Object));
-        this.charachter = new HashMap<>();
-        this.chapter    = chapter;
+                if (this.charachters.containsKey(name)) {
+                    this.charachters.get(name).add(human);
+                } else {
+                    List<Entity> characterList = new ArrayList<>();
 
-        for (Human human : Human) {
-            String name = human.getName();
+                    characterList.add(human);
+                    this.charachters.put(name, characterList);
+                }
 
-            if (this.charachter.containsKey(name)) {
-                this.charachter.get(name).add(human);
-            } else {
-                List<Entity> characterList = new ArrayList<>();
+                Message action = new Message(new Human[]{human}, null);
 
-                characterList.add(human);
-                this.charachter.put(name, characterList);
+                System.out.println(action.joinServer());
             }
 
-            Message action = new Message(new Human[] { human }, null);
+            for (Thing things : Things) {
+                String name = things.getName();
 
-            System.out.println(action.joinServer());
-        }
+                if (this.charachters.containsKey(name)) {
+                    this.charachters.get(name).add(things);
+                } else {
+                    List<Entity> characterList = new ArrayList<>();
 
-        for (Thing things : Things) {
-            String name = things.getName();
-
-            if (this.charachter.containsKey(name)) {
-                this.charachter.get(name).add(things);
-            } else {
-                List<Entity> characterList = new ArrayList<>();
-
-                characterList.add(things);
-                this.charachter.put(name, characterList);
+                    characterList.add(things);
+                    this.charachters.put(name, characterList);
+                }
             }
+        } catch (Exception e){
+            NullSceneException.throwError();
         }
-
         System.out.println();
+        System.out.println(this.charachters);
+    }
+
+    public static Scene getInstance(int chapter, Human[] humans, Thing[] things) {
+        if ((instance == null) || (instance.chapter != chapter)) {
+            instance = new Scene(humans, things, chapter);
+            instance.chapter = chapter;
+        }
+        return instance;
     }
 
     public void argueWith(Entity[] MainCharacter, String verb, boolean negation) {
@@ -91,7 +99,7 @@ public class Scene {
                                  boolean negation, String secondVerb, boolean secondNegation,
                                  Entity InstrumentalSubject) {
         Message action = new Message(MainCharacter,
-                                     new Entity[] { GenitiveSubject, AkkusativSubject, InstrumentalSubject });
+                new Entity[]{GenitiveSubject, AkkusativSubject, InstrumentalSubject});
 
         System.out.println(action.beOnTimeAndDoSmth(verb, negation, secondVerb, secondNegation, actionInterraction));
     }
@@ -100,7 +108,7 @@ public class Scene {
                                            String verb, boolean negation, String secondVerb, boolean secondNegation,
                                            Entity InstrumentalSubject) {
         Message action = new Message(MainCharacter,
-                                     new Entity[] { GenitiveSubject, AkkusativSubject, InstrumentalSubject });
+                new Entity[]{GenitiveSubject, AkkusativSubject, InstrumentalSubject});
 
         action.beOnTimeAndDoSmthWithErrors(verb, negation, secondVerb, secondNegation, actionInterraction);
     }
@@ -141,28 +149,19 @@ public class Scene {
         return action.thinkAbout(negation, reason);
     }
 
-    public static Scene getInstance(int chapter, Human[] humans, Thing[] things) {
-        if ((instance == null) || (instance.chapter != chapter)) {
-            instance         = new Scene(humans, things, chapter);
-            instance.chapter = chapter;
-        }
-
-        return instance;
-    }
-
     private Entity getMainCharacheter(String name) {
-        Human        NewThing     = new Human(name);
+        Human NewThing = new Human(name);
         List<Entity> NewThingList = new ArrayList<>();
 
         NewThingList.add(NewThing);
-        this.charachter.put(name, NewThingList);
+        this.charachters.put(name, NewThingList);
 
-        return this.charachter.get(name).get(0);
+        return this.charachters.get(name).get(0);
     }
 
     public Entity getOrCreateMain(String name) {
-        if (this.charachter.containsKey(name)) {
-            Entity potentialMain = this.charachter.get(name).get(0);
+        if (this.charachters.containsKey(name)) {
+            Entity potentialMain = this.charachters.get(name).get(0);
 
             if (potentialMain.isMainCharacter()) {
                 return potentialMain;
@@ -173,8 +172,8 @@ public class Scene {
     }
 
     protected Entity getOrCreateMainbyIndex(String name, int index) {
-        if (this.charachter.containsKey(name)) {
-            Entity potentialMain = this.charachter.get(name).get(index);
+        if (this.charachters.containsKey(name)) {
+            Entity potentialMain = this.charachters.get(name).get(index);
 
             if (potentialMain.isMainCharacter()) {
                 return potentialMain;
@@ -185,8 +184,8 @@ public class Scene {
     }
 
     public Entity getOrCreateThing(String name) {
-        if (this.charachter.containsKey(name)) {
-            Entity potentialThing = this.charachter.get(name).get(0);
+        if (this.charachters.containsKey(name)) {
+            Entity potentialThing = this.charachters.get(name).get(0);
 
             if (!potentialThing.isMainCharacter()) {
                 return potentialThing;
@@ -197,8 +196,8 @@ public class Scene {
     }
 
     protected Entity getOrCreateThingbyIndex(String name, int index) {
-        if (this.charachter.containsKey(name)) {
-            Entity potentialThing = this.charachter.get(name).get(index);
+        if (this.charachters.containsKey(name)) {
+            Entity potentialThing = this.charachters.get(name).get(index);
 
             if (!potentialThing.isMainCharacter()) {
                 return potentialThing;
@@ -209,15 +208,51 @@ public class Scene {
     }
 
     private Entity getThing(String name) {
-        Thing        NewThing     = new Thing(name, name, name, name, name);
+        Thing NewThing = new Thing(name, name, name, name, name);
         List<Entity> NewThingList = new ArrayList<>();
 
         NewThingList.add(NewThing);
-        this.charachter.put(name, NewThingList);
+        this.charachters.put(name, NewThingList);
 
-        return this.charachter.get(name).get(0);
+        return this.charachters.get(name).get(0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Scene scene = (Scene) o;
+        return
+                Arrays.equals(human, scene.human) &&
+                        Arrays.equals(things, scene.things);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(chapter);
+        System.out.println(Arrays.hashCode(human));
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        result = 31 * result + (human != null ? Arrays.hashCode(human) : 0);
+        result = 31 * result + (things != null ? Arrays.hashCode(things) : 0);
+        return result;
+    }
+
+    public static class NullSceneException extends RuntimeException {
+        public NullSceneException(String message) {
+            super(message);
+        }
+
+        public static void throwError() {
+            throw new NullSceneException("Нельзя создавать сцену c null объектами");
+        }
     }
 }
 
 
-//~ Formatted by Jindent --- http://www.jindent.com

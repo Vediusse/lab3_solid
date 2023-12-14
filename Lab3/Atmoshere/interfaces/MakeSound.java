@@ -1,8 +1,9 @@
-package Lab3.Atmoshere;
+package Lab3.Atmoshere.interfaces;
 
+import Lab3.Atmoshere.Sound;
 import Lab3.Entity.abstracts.Entity;
 
-public interface makeSound {
+public interface MakeSound {
     void makeSound(Entity Subject, Sound sound);
 }
 

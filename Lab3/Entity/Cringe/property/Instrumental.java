@@ -1,7 +1,11 @@
 package Lab3.Entity.Cringe.property;
 
 public enum Instrumental {
-    Karloson("Карлосонa"), Malush("Малыш"), Pot("горшок"), Seed("семечко"), Dirty("землей");
+    Karloson("Карлосонa"),
+    Malush("Малыш"),
+    Pot("горшок"),
+    Seed("семечко"),
+    Dirty("землей");
 
     private final String instrumental;
 
