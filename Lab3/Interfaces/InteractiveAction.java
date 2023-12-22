@@ -1,4 +1,4 @@
-package Lab3.Atmoshere.interfaces;
+package Lab3.Interfaces;
 
 import Lab3.Entity.abstracts.Entity;
 

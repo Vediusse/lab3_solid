@@ -1,8 +1,8 @@
 package Lab3.Actions;
 
 import Lab3.Atmoshere.Sound;
-import Lab3.Atmoshere.interfaces.InteractiveAction;
-import Lab3.Atmoshere.interfaces.MakeSound;
+import Lab3.Interfaces.InteractiveAction;
+import Lab3.Interfaces.ToNoise;
 import Lab3.Entity.abstracts.Entity;
 
 public class Message {
@@ -89,7 +89,7 @@ public class Message {
         return "Теперь " + subject + modalVerbBilder(false, "издал звук") + ", похожий на " + Sound.getSimilarTo();
     }
 
-    public void makeSoundWithErrors(Sound Sound, MakeSound actionMakeSound) {
+    public void makeSoundWithErrors(Sound Sound, ToNoise actionMakeSound) {
         System.out.println("Теперь " + subject + modalVerbBilder(false,
                 "издал звук") + ", похожий на "
                 + Sound.getSimilarTo());

@@ -1,4 +1,4 @@
-package Lab3.Entity.interfaces;
+package Lab3.Interfaces;
 
 public interface MainCharacters {
     boolean isMainCharacter();

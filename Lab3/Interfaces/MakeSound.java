@@ -1,4 +1,4 @@
-package Lab3.Entity.interfaces;
+package Lab3.Interfaces;
 
 public interface MakeSound {
     boolean toCluck();
@@ -7,4 +7,3 @@ public interface MakeSound {
 }
 
 
-//~ Formatted by Jindent --- http://www.jindent.com

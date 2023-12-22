@@ -79,19 +79,24 @@ public class Human extends Entity {
                 : "он";
     }
 
-    public static Human create() {
-        return new LocalHuman();
-    }
 
-    protected static class LocalHuman extends Human {
 
-        public LocalHuman() {
-            super("faceless","faceless","кто?","faceless","faceless",true,true);
-            this.pronoun = "все";
+    public static abstract class Factory {
+        public static Entity[] getAndCreateCrowd(int amount){
+            Human[] crowd = new Human[amount]; // Создаем пустой список crowd
+            for (int i = 0; i < amount; i++) {
+                Human human = new Human("faceless","faceless","кто?","faceless","faceless",true,true); // Создаем экземпляр класса Human
+                crowd[i] = human ;  // Добавляем экземпляр в список crowd
+            }
+        return crowd;
         }
-        @Override
-        public boolean toCluck() {
-            return false;
+
+        public static Human getAndCreateFaceless(){
+            return new Human("faceless","faceless","кто?","faceless","faceless",true,true);
+        }
+
+        public static Human getAndCreatePerson(String name){
+            return new Human(name,"neutral","кто?",name,name,true,true);
         }
     }
 

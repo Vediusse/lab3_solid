@@ -18,49 +18,14 @@ public class Scene {
     public HashMap<String, List<Entity>> charachters;
     private int chapter = 0;
 
-    private Scene(Human[] Human, Thing[] Things, int chapter) {
+    protected Scene(Human[] Human, Thing[] Things, int chapter) {
         this.human = Human;
         this.things = Things;
-        try {
-            Message action_for_describe = new Message(Human, Things);
-            System.out.println(action_for_describe.allCharacters(action_for_describe.Subject, action_for_describe.Object));
-            this.charachters = new HashMap<>();
-            this.chapter = chapter;
+        setCharachters(Human,Things);
+    }
 
-            for (Human human : Human) {
-                String name = human.getName();
-
-                if (this.charachters.containsKey(name)) {
-                    this.charachters.get(name).add(human);
-                } else {
-                    List<Entity> characterList = new ArrayList<>();
-
-                    characterList.add(human);
-                    this.charachters.put(name, characterList);
-                }
-
-                Message action = new Message(new Human[]{human}, null);
-
-                System.out.println(action.joinServer());
-            }
-
-            for (Thing things : Things) {
-                String name = things.getName();
-
-                if (this.charachters.containsKey(name)) {
-                    this.charachters.get(name).add(things);
-                } else {
-                    List<Entity> characterList = new ArrayList<>();
-
-                    characterList.add(things);
-                    this.charachters.put(name, characterList);
-                }
-            }
-        } catch (Exception e){
-            NullSceneException.throwError();
-        }
-        System.out.println();
-        System.out.println(this.charachters);
+    public HashMap<String, List<Entity>> getListOfCharacters(){
+        return this.charachters;
     }
 
     public static Scene getInstance(int chapter, Human[] humans, Thing[] things) {
@@ -216,6 +181,37 @@ public class Scene {
 
         return this.charachters.get(name).get(0);
     }
+
+    protected void setCharachters(Entity[] Human,Entity[] Thing){
+        try {
+            Message action_for_describe = new Message(Human, Thing);
+            System.out.println(action_for_describe.allCharacters(action_for_describe.Subject, action_for_describe.Object));
+            this.charachters = new HashMap<>();
+            List<Entity> allEntities = new ArrayList<>();
+            allEntities.addAll(List.of(Human));
+            allEntities.addAll(List.of(Thing));
+
+            for (Entity entity : allEntities) {
+                String name = entity.getName();
+
+                if (this.charachters.containsKey(name)) {
+                    this.charachters.get(name).add(entity);
+                } else {
+                    List<Entity> characterList = new ArrayList<>();
+                    characterList.add(entity);
+                    this.charachters.put(name, characterList);
+                }
+
+                Message action = new Message(new Entity[]{entity}, null);
+                System.out.println(action.joinServer());
+            }
+
+        } catch (Exception e){
+            NullSceneException.throwError();
+        }
+        System.out.println();
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,10 @@
-package Lab3.Entity.interfaces;
+package Lab3.Interfaces.Functional;
 
 import Lab3.Entity.Human;
 
+@FunctionalInterface
 public interface HumanFactory {
-    Human create();
+    Human getAndCreateFaceless();
 }
 
 

@@ -6,21 +6,28 @@ import Lab3.Entity.Cringe.*;
 import Lab3.Entity.Human;
 import Lab3.Entity.Thing;
 import Lab3.Entity.abstracts.Entity;
-import Lab3.Entity.interfaces.HumanFactory;
+import Lab3.Interfaces.Functional.CreatePerson;
+import Lab3.Interfaces.Functional.HumanFactory;
 
 public class Main {
     public static void main(String[] args) {
         Human Malush = new Human("Малыш", "male", "Малыш", "Малыша", "Малышом", true, false);
         Human Karloson = new Karloson();
         Human Super = new Malush();
-        HumanFactory humanFactory = Human::create;
+
         Thing seed = new Seed();
         Thing pot = new Pot();
         Thing dirty = new Dirty();
-
+        HumanFactory factoryFaceless = Human.Factory::getAndCreateFaceless;
+        CreatePerson factoryPerson = Human.Factory::getAndCreatePerson;
         Sound sound = new Sound("кудахтанье");
         Scene scene = Scene.getInstance(1,
-                new Human[]{},
+                new Human[]{Malush,new Human("ну имя"){
+                    @Override
+                    public boolean toCluck() {
+                        return true;
+                    }
+                },Super,factoryPerson.getAndCreatePerson("name")},
                 new Thing[]{seed, pot, dirty});
 
         scene.interactionThingWithErrors(new Entity[]{scene.getOrCreateMain("Карлосон"),

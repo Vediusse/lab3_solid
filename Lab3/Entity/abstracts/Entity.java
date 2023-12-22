@@ -1,8 +1,8 @@
 package Lab3.Entity.abstracts;
 
-import Lab3.Entity.interfaces.Fullness;
-import Lab3.Entity.interfaces.MainCharacters;
-import Lab3.Entity.interfaces.MakeSound;
+import Lab3.Interfaces.Fullness;
+import Lab3.Interfaces.MainCharacters;
+import Lab3.Interfaces.MakeSound;
 import Lab3.Entity.property.Personality;
 import Lab3.Entity.property.SwitchableMood;
 
