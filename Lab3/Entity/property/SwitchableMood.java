@@ -1,7 +1,10 @@
 package Lab3.Entity.property;
 
 public enum SwitchableMood {
-    Default("10"), Easy("15"), Diffiluct("30"), Hard("60");
+    Default("10"),
+    Easy("15"),
+    Diffiluct("30"),
+    Hard("60");
 
     private final String switchableMood;
 

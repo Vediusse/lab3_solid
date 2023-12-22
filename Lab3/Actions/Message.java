@@ -1,26 +1,26 @@
 package Lab3.Actions;
 
 import Lab3.Atmoshere.Sound;
-import Lab3.Atmoshere.interactiveAction;
-import Lab3.Atmoshere.makeSound;
-
+import Lab3.Interfaces.InteractiveAction;
+import Lab3.Interfaces.ToNoise;
 import Lab3.Entity.abstracts.Entity;
 
 public class Message {
-    private int     lengthCharacter = 0;
-    private String  subject         = "";
-    private String  pronoun         = "";
-    public Entity[] Subject         = new Entity[] {};
+    public Entity[] Subject = new Entity[]{};
     public Entity[] Object;
+    private int lengthCharacter = 0;
+    private String subject = "";
+    private String pronoun = "";
 
-    public Message() {}
+    public Message() {
+    }
 
     public Message(Entity[] Subject, Entity[] Object) {
-        this.Subject         = Subject;
-        this.Object          = Object;
+        this.Subject = Subject;
+        this.Object = Object;
         this.lengthCharacter = Subject.length;
-        this.subject         = this.subjectBuild();
-        this.pronoun         = this.pronounsBuild();
+        this.subject = this.subjectBuild();
+        this.pronoun = this.pronounsBuild();
     }
 
     public String allCharacters(Entity[] Subject, Entity[] Object) {
@@ -43,38 +43,38 @@ public class Message {
 
     public String beOnTime(String verb, boolean negation) {
         return subject + modalVerbBilder(false,
-                                         "успел") + "тем временем " + negationVerb(false,
-                                                                                   verb) + " "
-                                                                                         + this.Object[0].getName()
-                                                                                         + " в "
-                                                                                         + this.Object[1].getName();
+                "успел") + "тем временем " + negationVerb(false,
+                verb) + " "
+                + this.Object[0].getName()
+                + " в "
+                + this.Object[1].getName();
     }
 
     public String beOnTimeAndDoSmth(String verb, boolean negation, String secondVerb, boolean secondNegation,
-                                    interactiveAction interactiveAction) {
+                                    InteractiveAction interactiveAction) {
         interactiveAction.executeLogic(this.Object[0], this.Object[1]);
 
         return beOnTime(verb,
-                        negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
-                                  + this.doSmth(secondVerb,
-                                                secondNegation) + this.Object[0].getPronounAkkusative() + " "
-                                                                + this.Object[2].getInstrumental();
+                negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
+                + this.doSmth(secondVerb,
+                secondNegation) + this.Object[0].getPronounAkkusative() + " "
+                + this.Object[2].getInstrumental();
     }
 
     public void beOnTimeAndDoSmthWithErrors(String verb, boolean negation, String secondVerb, boolean secondNegation,
-                                            interactiveAction interactiveAction) {
+                                            InteractiveAction interactiveAction) {
         System.out.println(beOnTime(verb,
-                                    negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
-                                              + this.doSmth(secondVerb,
-                                                            secondNegation) + this.Object[0].getPronounAkkusative()
-                                                                            + " " + this.Object[2].getInstrumental());
+                negation) + ", и " + "теперь" + this.Subject[0].getPersonality().toString() + " "
+                + this.doSmth(secondVerb,
+                secondNegation) + this.Object[0].getPronounAkkusative()
+                + " " + this.Object[2].getInstrumental());
         interactiveAction.executeLogic(this.Object[0], this.Object[1]);
     }
 
     private String doSmth(String verb, boolean negation) {
         return (pronoun == null)
-               ? ""
-               : pronoun + " " + modalVerbBilder(false, verb);
+                ? ""
+                : pronoun + " " + modalVerbBilder(false, verb);
     }
 
     public String joinServer() {
@@ -89,10 +89,10 @@ public class Message {
         return "Теперь " + subject + modalVerbBilder(false, "издал звук") + ", похожий на " + Sound.getSimilarTo();
     }
 
-    public void makeSoundWithErrors(Sound Sound, makeSound actionMakeSound) {
+    public void makeSoundWithErrors(Sound Sound, ToNoise actionMakeSound) {
         System.out.println("Теперь " + subject + modalVerbBilder(false,
-                                                                 "издал звук") + ", похожий на "
-                                                                               + Sound.getSimilarTo());
+                "издал звук") + ", похожий на "
+                + Sound.getSimilarTo());
         actionMakeSound.makeSound(this.Subject[0], Sound);
     }
 
@@ -115,22 +115,22 @@ public class Message {
     }
 
     public String notAbleToMakeClutck(Entity subject) {
-        return subject.getName() + " не захочет кудахтать";
+        return subject.getName().substring(0, 1).toUpperCase() + subject.getName().substring(1) + " не захочет кудахтать";
     }
 
     public String notAbleToMakeSound(Entity subject) {
-        return subject.getName() + " не захочет кудахтать, точнее не может";
+        return subject.getName().substring(0, 1).toUpperCase() + subject.getName().substring(1) + " не захочет кудахтать, точнее не сможет";
     }
 
     public String notEasyTo(String verb, boolean negation) {
         return negationVerb(false, verb).substring(0, 1)
-                                        .toUpperCase() + negationVerb(negation,
-                                                                      verb).substring(1) + " c "
-                                                                      + this.Subject[0].getPronounAkkusative()
-                                                                          + " было трудно, особенно когда " + "он"
-                                                                              + " " + "бывал в настроении" + " по"
-                                                                                  + negationVerb(negation,
-                                                                                                 verb);
+                .toUpperCase() + negationVerb(negation,
+                verb).substring(1) + " c "
+                + this.Subject[0].getPronounAkkusative()
+                + " было трудно, особенно когда " + "он"
+                + " " + "бывал в настроении" + " по"
+                + negationVerb(negation,
+                verb);
     }
 
     public String notSoEasy() {
@@ -171,9 +171,9 @@ public class Message {
 
     public String switchMood(String verb, boolean negation, int time) {
         return "К счастью, настроение у " + this.Subject[0].getAkkusative() + "a " + negationVerb(false,
-                                                                                                  verb) + " каждые "
-                                                                                                  + this.Subject[0].getSwitchableMood().toString()
-                                                                                                      + " минут";
+                verb) + " каждые "
+                + this.Subject[0].getSwitchableMood().toString()
+                + " минут";
     }
 
     public String thinkAbout(boolean negation, String reason) {
@@ -181,5 +181,3 @@ public class Message {
     }
 }
 
-
-//~ Formatted by Jindent --- http://www.jindent.com

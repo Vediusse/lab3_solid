@@ -1,7 +1,10 @@
 package Lab3.Entity.property;
 
 public enum Personality {
-    Default(""), Active("энергично"), Sad(", жуя сопли,"), Ridicous("вайбово");
+    Default(""),
+    Active("энергично"),
+    Sad(", жуя сопли,"),
+    Ridicous("вайбово");
 
     private final String personality;
 

@@ -1,14 +1,14 @@
 package Lab3.Entity.Cringe;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import Lab3.Entity.Thing;
 import Lab3.Entity.abstracts.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pot extends Thing {
-    public int             fullability = 3;
-    protected List<Entity> entityList  = new ArrayList<>();
+    public int fullability = 3;
+    protected List<Entity> entityList = new ArrayList<>();
 
     public Pot() {
         super("горшок", "neutral", "горшок", "горшок", "горшок");
@@ -20,7 +20,7 @@ public class Pot extends Thing {
             this.entityList.add(objects);
         } else {
             System.out.println(
-                " └──   Нельзя просто так взять и положить так много вещей в вещь, поэтому следующая строка лишь сюрреализм");
+                    " └──   Нельзя просто так взять и положить так много вещей в вещь, поэтому следующая строка лишь сюрреализм");
         }
     }
 
@@ -37,7 +37,7 @@ public class Pot extends Thing {
     @Override
     public Entity[] getObjects() {
         Entity[] entities = new Entity[entityList.size()];
-        int      i        = 0;
+        int i = 0;
 
         for (Entity obj : entityList) {
             entities[i] = obj;

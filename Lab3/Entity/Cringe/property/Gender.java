@@ -1,7 +1,9 @@
 package Lab3.Entity.Cringe.property;
 
 public enum Gender {
-    Neutral("neutral"), Female("female"), Male("male");
+    Neutral("neutral"),
+    Female("female"),
+    Male("male");
 
     private final String gender;
 

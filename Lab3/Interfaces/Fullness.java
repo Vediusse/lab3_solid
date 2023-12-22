@@ -1,4 +1,4 @@
-package Lab3.Entity.interfaces;
+package Lab3.Interfaces;
 
 import Lab3.Entity.abstracts.Entity;
 

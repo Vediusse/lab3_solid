@@ -1,8 +1,8 @@
-package Lab3.Atmoshere;
+package Lab3.Interfaces;
 
 import Lab3.Entity.abstracts.Entity;
 
-public interface interactiveAction {
+public interface InteractiveAction {
     void executeLogic(Entity as, Entity gs);
 }
 

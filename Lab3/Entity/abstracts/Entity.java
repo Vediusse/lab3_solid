@@ -1,24 +1,25 @@
 package Lab3.Entity.abstracts;
 
-import java.util.Objects;
-
-import Lab3.Entity.interfaces.Fullness;
-import Lab3.Entity.interfaces.MainCharacters;
-import Lab3.Entity.interfaces.makeSound;
+import Lab3.Interfaces.Fullness;
+import Lab3.Interfaces.MainCharacters;
+import Lab3.Interfaces.MakeSound;
 import Lab3.Entity.property.Personality;
 import Lab3.Entity.property.SwitchableMood;
 
-public abstract class Entity implements MainCharacters, Fullness, makeSound {
-    private String            pronoun         = "";
-    private final Personality personality     = Personality.Default;
-    public SwitchableMood     switchableMood  = SwitchableMood.Default;
-    protected Entity[]        interactionList = null;
-    protected String          name;
-    private boolean           isBuried;
-    protected String          Genitive;
-    protected String          Instrumental;
-    protected String          Akkusative;
-    protected String          pronounAkkusative;
+import java.util.Objects;
+
+public abstract class Entity implements MainCharacters, Fullness, MakeSound {
+    private final Personality personality = Personality.Default;
+    public SwitchableMood switchableMood = SwitchableMood.Default;
+    protected Entity[] interactionList = null;
+    protected String name;
+    protected String genitive;
+    protected String instrumental;
+    protected String akkusative;
+    protected String pronounAkkusative;
+    private final String pronoun = "";
+    private boolean isBuried;
+
 
     @Override
     public boolean equals(Object o) {
@@ -30,7 +31,7 @@ public abstract class Entity implements MainCharacters, Fullness, makeSound {
             return false;
         }
 
-        Object person = (Object) o;
+        Object person = o;
 
         return (name == "Имя какого класса") && Objects.equals(name, "имя");
     }
@@ -41,15 +42,15 @@ public abstract class Entity implements MainCharacters, Fullness, makeSound {
     }
 
     public String getAkkusative() {
-        return Akkusative;
+        return akkusative;
     }
 
     public String getGenitive() {
-        return Genitive;
+        return genitive;
     }
 
     public String getInstrumental() {
-        return Instrumental;
+        return instrumental;
     }
 
     public String getName() {
@@ -71,6 +72,8 @@ public abstract class Entity implements MainCharacters, Fullness, makeSound {
     public SwitchableMood getSwitchableMood() {
         return this.switchableMood;
     }
+
+    public abstract boolean equals(Entity o);
 }
 
 
